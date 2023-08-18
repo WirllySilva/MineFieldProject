@@ -1,2 +1,2 @@
-# MineFieldProject
- Minefield game
+# MineSweeperProject
+ MineSweeper game
