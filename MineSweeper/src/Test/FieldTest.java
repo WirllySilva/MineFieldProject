@@ -23,4 +23,32 @@ public class FieldTest {
         assertTrue(resultLeftAdjacentSquare);
         
     }
+
+    @Test
+    void realAdjacentSquareSecondDistance() {
+        Field rightAdjacentSquare = new Field(3, 2);
+        boolean resultRightAdjacentSquare = field.addAdjacentSquare(rightAdjacentSquare);
+        assertTrue(resultRightAdjacentSquare);
+    }
+
+    @Test
+    void realAdjacentSquareThirdDistance() {
+        Field downAdjacentSquare = new Field(4, 3);
+        boolean resultDownAdjacentSquare = field.addAdjacentSquare(downAdjacentSquare);
+        assertTrue(resultDownAdjacentSquare);
+    }
+
+    @Test
+    void realAdjacentSquareFourthDistance() {
+        Field upAdjacentSquare = new Field(2, 3);
+        boolean resultUpAdjacentSquare = field.addAdjacentSquare(upAdjacentSquare);
+        assertTrue(resultUpAdjacentSquare);
+    }
+
+    @Test
+    void realdAdjacentSquareFifthDistance() {
+        Field leftUpDiagonallyAdjacentSquare = new Field(2, 4);
+        boolean leftUpdiagonallyAdjacentSquareResult = field.addAdjacentSquare(leftUpDiagonallyAdjacentSquare);
+        assertTrue(leftUpdiagonallyAdjacentSquareResult);
+    }   
 }
