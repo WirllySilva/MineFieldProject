@@ -14,12 +14,12 @@ public class Field {
 
     private List<Field> adjacentSquares = new ArrayList<>();
 
-    public Field(int row, int column) {
+    Field(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    public boolean addAdjacentSquare(Field adjacentSquare) {
+    boolean addAdjacentSquare(Field adjacentSquare) {
         boolean differentRow = row != adjacentSquare.row;
         boolean differentColumn = column != adjacentSquare.column;
         boolean diagonallyAdjacent = differentRow && differentColumn;
