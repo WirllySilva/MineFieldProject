@@ -3,6 +3,8 @@ package Main.ControlModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import Main.Exception.TriggeredException;
+
 public class Field {
 
     private final int row;
@@ -38,5 +40,38 @@ public class Field {
             return false;
         }
     }
+
+        void markingToggle() {
+            if(!opened) {
+                marked = !marked;
+            }
+        }
     
-}
+
+        boolean openField() {
+
+                if(!opened && !marked) {
+                opened = true;
+
+                if(mined) {
+                    throw new TriggeredException();
+                }
+                if(safeAdjacentSquare()) {
+                    adjacentSquares.forEach(adjSquare -> adjSquare.opened());
+                }
+
+                return true;
+            } else {
+                return false;
+            }
+            return false;
+        }
+
+        boolean safeAdjacentSquare() {
+            return adjacentSquares.stream().noneMatch(adjSquare -> adjSquare.mined);
+        }
+                    
+
+    }
+    
+
