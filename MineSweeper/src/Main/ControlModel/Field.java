@@ -68,7 +68,19 @@ public class Field {
         boolean safeAdjacentSquare() {
             return adjacentSquares.stream().noneMatch(adjSquare -> adjSquare.mined);
         }
-                    
+
+        void layMine() {
+            mined = true;
+        }
+
+        public boolean isMarked() {
+            return marked;
+        }    
+
+        public boolean isOpened() {
+            return opened;
+        }
+        
 
     }
     
