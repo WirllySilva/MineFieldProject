@@ -57,16 +57,14 @@ public class Field {
                     throw new TriggeredException();
                 }
                 if(safeAdjacentSquare()) {
-                    adjacentSquares.forEach(adjSquare -> adjSquare.opened());
+                    adjacentSquares.forEach(adjSquare -> adjSquare.openField());
                 }
-
                 return true;
             } else {
                 return false;
             }
-            return false;
         }
-
+        
         boolean safeAdjacentSquare() {
             return adjacentSquares.stream().noneMatch(adjSquare -> adjSquare.mined);
         }
