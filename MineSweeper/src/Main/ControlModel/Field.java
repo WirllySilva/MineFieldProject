@@ -47,7 +47,6 @@ public class Field {
             }
         }
     
-
         boolean openField() {
 
                 if(!opened && !marked) {
@@ -80,6 +79,51 @@ public class Field {
         public boolean isOpened() {
             return opened;
         }
+
+        public int getRow() {
+            return this.row;
+        }
+
+        public int getColumn() {
+            return this.column;
+        }
+
+        boolean goalHasBeenMet() {
+            boolean revealed = !mined && opened;
+            boolean safeguarded = marked;
+            return revealed || safeguarded;
+        }
+
+         long minesOnAdjacentSquare() {
+            return adjacentSquares.stream().filter(adjSquare -> adjSquare.mined).count();
+         }
+
+         void restartGame() {
+            opened = false;
+            mined = false;
+            marked = false;
+         }
+
+         public String toString() {
+            if(marked) {
+                return "X";
+            } else if(opened && mined) {
+                return "*";
+            } else if(opened && minesOnAdjacentSquare() > 0) {
+                return Long.toString(minesOnAdjacentSquare());
+            } else if(opened) {
+                return " ";
+            } else {
+                return "?";
+            }
+         }
+    
+   
+
+   
+    
+
+   
         
 
     }
