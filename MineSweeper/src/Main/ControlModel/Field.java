@@ -80,6 +80,10 @@ public class Field {
         return marked;
     }
 
+    public boolean isMined() {
+        return mined;
+    }
+
     public boolean isOpened() {
         return opened;
     }

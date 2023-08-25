@@ -12,6 +12,7 @@ import Main.Exception.TriggeredException;
 public class FieldTest {
 
     private Field field;
+
     @BeforeEach
     void startField() {
         field = new Field(3, 3);
@@ -22,7 +23,7 @@ public class FieldTest {
         Field leftAdjacentSquare = new Field(3, 2);
         boolean resultLeftAdjacentSquare = field.addAdjacentSquare(leftAdjacentSquare);
         assertTrue(resultLeftAdjacentSquare);
-        
+
     }
 
     @Test
@@ -51,7 +52,7 @@ public class FieldTest {
         Field leftUpDiagonallyAdjacentSquare = new Field(2, 4);
         boolean leftUpdiagonallyAdjacentSquareResult = field.addAdjacentSquare(leftUpDiagonallyAdjacentSquare);
         assertTrue(leftUpdiagonallyAdjacentSquareResult);
-    }   
+    }
 
     @Test
     void markedAttributeDefaultValueTest() {
@@ -101,10 +102,10 @@ public class FieldTest {
     void openFieldAndTheirAdjacentSquares() {
 
         Field field1 = new Field(1, 1);
-       
-        Field field2 = new Field(2,2);
+
+        Field field2 = new Field(2, 2);
         field2.addAdjacentSquare(field1);
-        
+
         field.addAdjacentSquare(field2);
 
         field.openField();
@@ -115,7 +116,7 @@ public class FieldTest {
     @Test
     void openFieldAndTheirAdjacentSquares2() {
 
-        Field field1 = new Field(1,1);
+        Field field1 = new Field(1, 1);
         Field field2 = new Field(1, 1);
         field2.layMine();
 
@@ -133,7 +134,7 @@ public class FieldTest {
     @Test
     void goalHasBeenMetTest_RevealedUnmined() {
         Field field1 = new Field(3, 3);
-        field1.openField();              
+        field1.openField();
         assertTrue(field1.goalHasBeenMet());
 
     }
@@ -147,7 +148,7 @@ public class FieldTest {
 
     @Test
     void goalHasBeenMetTest_MinedField() {
-        Field fieldTest = new Field(1,1);
+        Field fieldTest = new Field(1, 1);
         fieldTest.layMine();
         assertFalse(fieldTest.goalHasBeenMet());
     }
@@ -158,9 +159,66 @@ public class FieldTest {
         Field fieldTest2 = new Field(3, 4);
         fieldTest2.layMine();
         fieldTest1.addAdjacentSquare(fieldTest2);
-        
+
         assertEquals(1, fieldTest1.minesOnAdjacentSquare());
     }
 
-   
+    @Test
+    void adjacentSquareNotmined() {
+        Field fieldtest1 = new Field(3, 3);
+        Field fieldtest2 = new Field(3, 4);
+        fieldtest1.addAdjacentSquare(fieldtest2);
+
+        assertEquals(0, fieldtest1.minesOnAdjacentSquare());
+    }
+
+    @Test
+    void restartGameTest_Mined() {
+        Field fieldTest = new Field(1,1);
+        fieldTest.layMine();
+        fieldTest.restartGame();
+        assertFalse(fieldTest.isMined());
+    }
+
+    @Test
+    void restartGameTest_Marked() {
+        Field fieldTest = new Field(1,1);
+        fieldTest.markingToggle();
+        fieldTest.restartGame();
+        assertFalse(fieldTest.isMarked());
+    }
+
+    @Test
+    void restartGameTest_Opened() {
+        Field fieldTest = new Field(1,1);
+        fieldTest.openField();
+        fieldTest.restartGame();
+        assertFalse(fieldTest.isOpened());
+    }
+
+    @Test
+    void toStringTest_FieldMarked() {
+        Field fieldTest = new Field(3, 3);
+        fieldTest.markingToggle();
+        assertEquals("X", fieldTest.toString());
+    }
+
+    @Test
+    void toStringTest_FieldOpened() {
+        Field fieldTest = new Field(1,1);
+        fieldTest.openField();
+        assertEquals(" ", fieldTest.toString());
+    }
+
+    @Test
+    void toStringTest_FieldMined() {
+        Field fieldTest = new Field(1,1);
+        fieldTest.layMine();
+        assertThrows(TriggeredException.class, () -> {
+            fieldTest.openField();
+        });    
+        assertEquals("*", fieldTest.toString());    
+    }
+
+
 }
