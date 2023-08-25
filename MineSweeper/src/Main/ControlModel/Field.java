@@ -30,10 +30,10 @@ public class Field {
         int deltaColumn = Math.abs(column - adjacentSquare.column);
         int generalDelta = deltaColumn + deltaRow;
 
-        if(generalDelta == 1 && !diagonallyAdjacent) {
+        if (generalDelta == 1 && !diagonallyAdjacent) {
             adjacentSquares.add(adjacentSquare);
             return true;
-        } else if(generalDelta == 2 && diagonallyAdjacent) {
+        } else if (generalDelta == 2 && diagonallyAdjacent) {
             adjacentSquares.add(adjacentSquare);
             return true;
         } else {
@@ -41,91 +41,84 @@ public class Field {
         }
     }
 
-        void markingToggle() {
-            if(!opened) {
-                marked = !marked;
-            }
+    void markingToggle() {
+        if (!opened) {
+            marked = !marked;
         }
-    
-        boolean openField() {
-
-                if(!opened && !marked) {
-                opened = true;
-
-                if(mined) {
-                    throw new TriggeredException();
-                }
-                if(safeAdjacentSquare()) {
-                    adjacentSquares.forEach(adjSquare -> adjSquare.openField());
-                }
-                return true;
-            } else {
-                return false;
-            }
-        }
-        
-        boolean safeAdjacentSquare() {
-            return adjacentSquares.stream().noneMatch(adjSquare -> adjSquare.mined);
-        }
-
-        void layMine() {
-            mined = true;
-        }
-
-        public boolean isMarked() {
-            return marked;
-        }    
-
-        public boolean isOpened() {
-            return opened;
-        }
-
-        public int getRow() {
-            return this.row;
-        }
-
-        public int getColumn() {
-            return this.column;
-        }
-
-        boolean goalHasBeenMet() {
-            boolean revealed = !mined && opened;
-            boolean safeguarded = marked;
-            return revealed || safeguarded;
-        }
-
-         long minesOnAdjacentSquare() {
-            return adjacentSquares.stream().filter(adjSquare -> adjSquare.mined).count();
-         }
-
-         void restartGame() {
-            opened = false;
-            mined = false;
-            marked = false;
-         }
-
-         public String toString() {
-            if(marked) {
-                return "X";
-            } else if(opened && mined) {
-                return "*";
-            } else if(opened && minesOnAdjacentSquare() > 0) {
-                return Long.toString(minesOnAdjacentSquare());
-            } else if(opened) {
-                return " ";
-            } else {
-                return "?";
-            }
-         }
-    
-   
-
-   
-    
-
-   
-        
-
     }
-    
 
+    boolean openField() {
+
+        if (!opened && !marked) {
+            opened = true;
+
+            if (mined) {
+                throw new TriggeredException();
+            }
+            if (safeAdjacentSquare()) {
+                adjacentSquares.forEach(adjSquare -> adjSquare.openField());
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean safeAdjacentSquare() {
+        return adjacentSquares.stream().noneMatch(adjSquare -> adjSquare.mined);
+    }
+
+    void layMine() {
+        mined = true;
+    }
+
+    void removeMine() {
+        mined = false;
+    }
+
+    public boolean isMarked() {
+        return marked;
+    }
+
+    public boolean isOpened() {
+        return opened;
+    }
+
+    public int getRow() {
+        return this.row;
+    }
+
+    public int getColumn() {
+        return this.column;
+    }
+
+    boolean goalHasBeenMet() {
+        boolean revealed = !mined && opened;
+        boolean safeguarded = marked;
+        return revealed || safeguarded;
+    }
+
+    long minesOnAdjacentSquare() {
+        return adjacentSquares.stream().filter(adjSquare -> adjSquare.mined).count();
+    }
+
+    void restartGame() {
+        opened = false;
+        mined = false;
+        marked = false;
+    }
+
+    public String toString() {
+        if (marked) {
+            return "X";
+        } else if (opened && mined) {
+            return "*";
+        } else if (opened && minesOnAdjacentSquare() > 0) {
+            return Long.toString(minesOnAdjacentSquare());
+        } else if (opened) {
+            return " ";
+        } else {
+            return "?";
+        }
+    }
+}

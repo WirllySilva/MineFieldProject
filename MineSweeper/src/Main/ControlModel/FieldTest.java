@@ -129,6 +129,31 @@ public class FieldTest {
         assertTrue(field3.isOpened() && !field1.isOpened());
 
     }
+
+    @Test
+    void goalHasBeenMetTest_RevealedUnmined() {
+        Field field1 = new Field(3, 3);
+        field1.openField();              
+        assertTrue(field1.goalHasBeenMet());
+
+    }
+
+    @Test
+    void goalHasBeenMetTest_SafeguardedField() {
+        Field fieldTest = new Field(1, 1);
+        fieldTest.markingToggle();
+        assertTrue(fieldTest.goalHasBeenMet());
+    }
+
+    @Test
+    void goalHasBeenMetTest_MinedField() {
+        Field fieldTest = new Field(1,1);
+        fieldTest.layMine();
+        assertFalse(fieldTest.goalHasBeenMet());
+    }
+
+
+
         
     
     
