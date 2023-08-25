@@ -152,10 +152,15 @@ public class FieldTest {
         assertFalse(fieldTest.goalHasBeenMet());
     }
 
-
-
+    @Test
+    void adjacentSquareMinedTest() {
+        Field fieldTest1 = new Field(3, 3);
+        Field fieldTest2 = new Field(3, 4);
+        fieldTest2.layMine();
+        fieldTest1.addAdjacentSquare(fieldTest2);
         
-    
-    
+        assertEquals(1, fieldTest1.minesOnAdjacentSquare());
+    }
 
+   
 }
