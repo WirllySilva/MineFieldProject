@@ -72,6 +72,10 @@ public class Field {
         mined = true;
     }
 
+    public boolean isMinado() {
+        return mined;
+    }
+
     void removeMine() {
         mined = false;
     }
