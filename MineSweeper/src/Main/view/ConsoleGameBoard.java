@@ -11,7 +11,7 @@ import Main.Exception.TriggeredException;
 public class ConsoleGameBoard {
     
     private GameBoard gameBoard;
-    private Scanner keyBoard = new Scanner(System.in);
+    private Scanner typeBoard = new Scanner(System.in);
 
     public ConsoleGameBoard(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
@@ -26,7 +26,7 @@ public class ConsoleGameBoard {
             while(continueGame) {
                 gameCycle();
                 System.out.println("New game? (S/n) ");
-                String answer = keyBoard.nextLine();
+                String answer = typeBoard.nextLine();
 
                 if("n".equalsIgnoreCase(answer)) {
                     continueGame = false;
@@ -37,14 +37,14 @@ public class ConsoleGameBoard {
         } catch (GetOutException e) {
             System.out.println("See you soon");
         } finally {
-            keyBoard.close();
+            typeBoard.close();
         }
     }
 
     private void gameCycle() {
         try {
 
-            while(!gameBoard.goalHasBeenMet()) {
+          while(!gameBoard.goalHasBeenMet()) {
                 System.out.println(gameBoard);
 
                 String playerCommand = playerCommandAnswer("Type (x, y): ");
@@ -70,7 +70,7 @@ public class ConsoleGameBoard {
 
     private String playerCommandAnswer(String playerAnswer) {
         System.out.print(playerAnswer);
-        String playerCommand = keyBoard.nextLine();
+        String playerCommand = typeBoard.nextLine();
 
         if("sair".equalsIgnoreCase(playerCommand)) {
             throw new GetOutException();
