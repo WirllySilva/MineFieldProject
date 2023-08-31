@@ -60,9 +60,10 @@ public class ConsoleGameBoard {
                     gameBoard.markingToggle(xy.next(), xy.next());
                 }
             }
-            
+            System.out.println(gameBoard);
             System.out.println("You win!!");
         } catch(TriggeredException e) {
+            System.out.println(gameBoard);
             System.out.println("You lose!");
         }
     }

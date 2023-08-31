@@ -92,6 +92,10 @@ public class Field {
         return opened;
     }
 
+    public void setOpened(boolean opened) {
+        this.opened = opened;
+    }
+
     public int getRow() {
         return this.row;
     }

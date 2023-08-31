@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import Main.Exception.TriggeredException;
+
 public class GameBoard {
-    
-    private int numberOfrows;
-    private int numberOfcolumns;
+
+    private int numberOfRows;
+    private int numberOfColumns;
     private int numberOfMines;
 
     private final List<Field> fields = new ArrayList<>();
 
-
-    public GameBoard(int numberOfrows, int numberOfcolumns, int numberOfMines) {
-        this.numberOfrows = numberOfrows;
-        this.numberOfcolumns = numberOfcolumns;
+    public GameBoard(int numberOfRows, int numberOfColumns, int numberOfMines) {
+        this.numberOfRows = numberOfRows;
+        this.numberOfColumns = numberOfColumns;
         this.numberOfMines = numberOfMines;
 
         generateField();
@@ -24,61 +25,78 @@ public class GameBoard {
     }
 
     public void open(int row, int column) {
-        fields.parallelStream()
-        .filter(f -> f.getRow() == row && f.getColumn() == column)
-        .findFirst()
-        .ifPresent(f -> f.openField());
+        try {
+            fields.parallelStream()
+                    .filter(f -> f.getRow() == row && f.getColumn() == column)
+                    .findFirst()
+                    .ifPresent(f -> f.openField());
+        } catch (TriggeredException e) {
+            fields.forEach(f -> f.setOpened(true));
+            throw e;
+        }
     }
 
     public void markingToggle(int row, int column) {
         fields.parallelStream()
-            .filter(f -> f.getRow() == row && f.getColumn() == column)
-            .findFirst()
-            .ifPresent(f -> f.markingToggle());
+                .filter(f -> f.getRow() == row && f.getColumn() == column)
+                .findFirst()
+                .ifPresent(f -> f.markingToggle());
     }
 
     private void generateField() {
-        for (int row = 0; row < numberOfrows; row++) {
-            for (int column = 0; column < numberOfcolumns; column++) {
+        for (int row = 0; row < numberOfRows; row++) {
+            for (int column = 0; column < numberOfColumns; column++) {
                 fields.add(new Field(row, column));
             }
         }
     }
-    
+
     private void connectAdjacentsSquares() {
-        for(Field f1: fields) {
-            for(Field f2: fields) {
+        for (Field f1 : fields) {
+            for (Field f2 : fields) {
                 f1.addAdjacentSquare(f2);
             }
         }
     }
-    
+
     private void raffleMines() {
         long armedMines = 0;
         Predicate<Field> mined = f -> f.isMinado();
 
         do {
-            armedMines = fields.stream().filter(mined).count();
             int randomValue = (int) (Math.random() * fields.size());
             fields.get(randomValue).layMine();
-        } while(armedMines < numberOfMines);
+            armedMines = fields.stream().filter(mined).count();
+        } while (armedMines < numberOfMines);
     }
 
     public boolean goalHasBeenMet() {
         return fields.stream().allMatch(f -> f.goalHasBeenMet());
     }
 
-    public  void restartGame() {
+    public void restartGame() {
         fields.stream().forEach(f -> f.restartGame());
         raffleMines();
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        
+        sb.append("  ");
+        for (int c = 0; c < numberOfColumns; c++) {
+            sb.append(" ");
+            sb.append(c);
+            sb.append(" ");
+        }
+
+        sb.append("\n");
 
         int i = 0;
-        for(int r = 0; r < numberOfrows; r++) {
-            for(int c = 0; c < numberOfcolumns; c++) {
+        for (int r = 0; r < numberOfRows; r++) {
+            sb.append(r);
+            sb.append(" ");
+        
+            for (int c = 0; c < numberOfColumns; c++) {
                 sb.append(" ");
                 sb.append(fields.get(i));
                 sb.append(" ");
@@ -87,8 +105,7 @@ public class GameBoard {
             sb.append("\n");
         }
 
-        return sb.toString();
-    }
- 
+    return sb.toString();
+}
 
 }
